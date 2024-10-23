@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const car_1 = require("./car");
+const myCar = new car_1.Car();
+myCar.displayInfo();
+myCar.engine.start();
+myCar.lights.turnOn();
+myCar.wheels.rotate();
+myCar.displayInfo();
+myCar.engine.stop();
+myCar.lights.turnOff();
+myCar.wheels.brake();
+myCar.displayInfo();
