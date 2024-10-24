@@ -1,22 +1,18 @@
-interface ICarSystem {
-    getStatus(activeMessage: string, inactiveMessage: string): string;
-}
-interface IEngine {
+
+
+interface IEngine extends ICarSystem {
     start(): void;
     stop(): void;
-    getStatus(): string;
 }
 
-interface IWheels {
+interface IWheels extends ICarSystem {
     rotate(): void;
     brake(): void;
-    getStatus(): string;
 }
 
-interface ILights {
+interface ILights extends ICarSystem {
     turnOn(): void;
     turnOff(): void;
-    getStatus(): string;
 }
 
 interface ICar {
@@ -24,6 +20,10 @@ interface ICar {
     wheels: IWheels;
     lights: ILights;
     displayInfo(): void;
+}
+
+interface ICarSystem {
+    getStatus(): string;
 }
 
 class CarSystem implements ICarSystem {
@@ -34,11 +34,14 @@ class CarSystem implements ICarSystem {
         this.car = car;
     }
 
-    getStatus(activeMessage: string, inactiveMessage: string): string {
+    getStatusInternal(activeMessage: string, inactiveMessage: string): string {
         return this.isActive ? activeMessage : inactiveMessage;
     }
-}
 
+    getStatus(): string {
+        return this.isActive ? "Система активна." : "Система неактивна.";
+    }
+}
 
 class BasicEngine extends CarSystem implements IEngine {
     constructor(car: ICar) {
@@ -56,11 +59,15 @@ class BasicEngine extends CarSystem implements IEngine {
     }
 
     getStatus(): string {
-        return super.getStatus("Двигатель активен.", "Двигатель не активен.");
+        return super.getStatusInternal("Двигатель активен.", "Двигатель не активен.");
     }
 }
 
 class BasicWheels extends CarSystem implements IWheels {
+    constructor(car: ICar) {
+        super(car);
+    }
+
     rotate(): void {
         this.isActive = true;
         console.log("%c▶️ Колёса начали вращаться.", "color: green;");
@@ -72,11 +79,15 @@ class BasicWheels extends CarSystem implements IWheels {
     }
 
     getStatus(): string {
-        return super.getStatus("Колёса вращаются.", "Колёса не вращаются.");
+        return super.getStatusInternal("Колёса вращаются.", "Колёса не вращаются.");
     }
 }
 
 class BasicLights extends CarSystem implements ILights {
+    constructor(car: ICar) {
+        super(car);
+    }
+
     turnOn(): void {
         this.isActive = true;
         console.log("%c▶️ Фары включены.", "color: green;");
@@ -88,7 +99,7 @@ class BasicLights extends CarSystem implements ILights {
     }
 
     getStatus(): string {
-        return super.getStatus("Фары горят.", "Фары не горят.");
+        return super.getStatusInternal("Фары горят.", "Фары не горят.");
     }
 }
 
@@ -103,7 +114,7 @@ class Car implements ICar {
         this.lights = new BasicLights(this);
     }
 
-    displayInfo() {
+    displayInfo(): void {
         const statuses = [
             this.engine.getStatus(),
             this.wheels.getStatus(),
@@ -113,4 +124,4 @@ class Car implements ICar {
     }
 }
 
-export { Car }
+export { Car };
