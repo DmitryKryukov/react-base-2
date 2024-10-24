@@ -1,5 +1,3 @@
-
-
 interface IEngine extends ICarSystem {
     start(): void;
     stop(): void;
