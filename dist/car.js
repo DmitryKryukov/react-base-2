@@ -6,11 +6,8 @@ class CarSystem {
         this.isActive = false;
         this.car = car;
     }
-    getStatusInternal(activeMessage, inactiveMessage) {
+    getStatus(activeMessage, inactiveMessage) {
         return this.isActive ? activeMessage : inactiveMessage;
-    }
-    getStatus() {
-        return this.isActive ? "Система активна." : "Система неактивна.";
     }
 }
 class BasicEngine extends CarSystem {
@@ -26,13 +23,10 @@ class BasicEngine extends CarSystem {
         console.log("%c⏸ Двигатель заглушен.", "color: red;");
     }
     getStatus() {
-        return super.getStatusInternal("Двигатель активен.", "Двигатель не активен.");
+        return super.getStatus("Двигатель активен.", "Двигатель не активен.");
     }
 }
 class BasicWheels extends CarSystem {
-    constructor(car) {
-        super(car);
-    }
     rotate() {
         this.isActive = true;
         console.log("%c▶️ Колёса начали вращаться.", "color: green;");
@@ -42,13 +36,10 @@ class BasicWheels extends CarSystem {
         console.log("%c⏸ Колёса заблокированы.", "color: red;");
     }
     getStatus() {
-        return super.getStatusInternal("Колёса вращаются.", "Колёса не вращаются.");
+        return super.getStatus("Колёса вращаются.", "Колёса не вращаются.");
     }
 }
 class BasicLights extends CarSystem {
-    constructor(car) {
-        super(car);
-    }
     turnOn() {
         this.isActive = true;
         console.log("%c▶️ Фары включены.", "color: green;");
@@ -58,7 +49,7 @@ class BasicLights extends CarSystem {
         console.log("%c⏸ Фары выключены.", "color: red;");
     }
     getStatus() {
-        return super.getStatusInternal("Фары горят.", "Фары не горят.");
+        return super.getStatus("Фары горят.", "Фары не горят.");
     }
 }
 class Car {
